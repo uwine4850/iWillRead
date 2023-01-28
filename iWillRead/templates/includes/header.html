@@ -20,14 +20,16 @@
     </div>
     <div id="profile-menu-wrap" class="profile-menu-wrap">
         <button class="header-profile">
-            <div class="hp-username">renxob</div>
+            <div class="hp-username">{{ user.username }}</div>
             <div class="profile-image-wrap">
-                <img src="{% static 'img/1.jpg' %}" alt="">
+                {% if user.profilemodel.image %}
+                <img src="{{ user.profilemodel.image.url }}" alt="">
+                {% endif %}
             </div>
         </button>
         <div id="profile-menu" class="profile-menu profile-menu-hidden">
-            <a class="profile-menu-item" href="">Edit</a>
-            <a class="profile-menu-item log-out-btn" href="">Log out</a>
+            <a class="profile-menu-item" href="{{ user.profilemodel.get_absolute_url }}">Edit</a>
+            <a class="profile-menu-item log-out-btn" href="{% url 'account_logout' %}">Log out</a>
         </div>
     </div>
 </header>
