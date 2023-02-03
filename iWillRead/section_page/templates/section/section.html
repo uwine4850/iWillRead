@@ -7,7 +7,16 @@
 {% endblock css %}
 
 
-{% block title %}Section{% endblock title %}
+{% block title %}{{ section.name }}{% endblock title %}
+
+
+{% block central_panel %}
+<div id="pop-up-overflow-screen" class="pop-up-overflow-screen pop-up-hover">
+	<div id="central-pop-up-panel" class="central-pop-up-panel">
+		
+	</div>
+</div>
+{% endblock central_panel %}
 
 
 {% block header %}
@@ -16,52 +25,7 @@
 
 
 {%block left_container %}
-<div class="section-description-wrap">
-	<div class="section-top">
-		<div class="section-path-name">
-			arts/
-		</div>
-		<div id="section-detail-wrap" class="section-detail-wrap">
-			<button class="section-detail-btn">
-				Detail
-			</button>
-			<div id="section-detail-menu" class="section-detail-menu section-menu-hidden">
-				<a href="#" class="section-detail-menu-item">
-					Edit
-				</a>
-				<a href="#" class="section-detail-menu-item">
-					New subsections
-				</a>
-				<a href="#" class="section-detail-menu-item delete-secton-btn">
-					Delete
-				</a>
-			</div>
-		</div>
-	</div>
-	<div class="section-image">
-		<div class="section-image-wrap">
-			<img src="{% static 'img/temp/2.jpg' %}" alt="">
-		</div>
-	</div>
-	<div class="section-text">
-		It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
-	</div>
-	<form method="post" class="header-search subsections-search">
-		<input placeholder="Type a section address" type="text">
-		<button>Search</button>
-	</form>
-	<div class="subsections-wrap">
-		<a href="" class="subsection-item">
-			Paint 🎨
-		</a>
-		<a href="" class="subsection-item">
-			Drawing ✏️
-		</a>
-		<a href="" class="subsection-item">
-			Pixel art 👾
-		</a>
-	</div>
-</div>
+{% include 'includes/section/section_detail_left.html' %}
 {% endblock left_container %}
 
 
@@ -71,65 +35,40 @@
         <input placeholder="Type a section address" type="text">
         <button>Search</button>
     </form>
-	<div class="section-home">
-		<div class="secton-top-descr">
-			<a href="" class="section-name">Section</a>
-			<div class="section-update">update: 23.03.2023</div>
-		</div>
-		<div class="section-description-text">
-			It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using.
-		</div>
-		<div class="sections-bottom">
-			<div class="section-tag-category">
-				Prog
+	<div id="publication_container">
+		{% if default_ss_values.count == 0 %}
+			<div class="subsections-publications-not-found">
+				<div class="publications-not-found-title">
+					Publications not found
+				</div>
+				<div class="publications-not-found-create">
+					You can create a <a href="{% url 'new_publication' %}?parentsection_id={{ section.id }}">new post</a>.
+				</div>
 			</div>
-			<div class="section-tag-category">
-				#tag1
+		{% else %}
+			{% for def_publication in default_ss_values %}
+			<div class="section-home">
+				<div class="secton-top-descr">
+					<a href="{{ def_publication.get_absolute_url }}?parent_section_id={{ section.id }}" class="section-name">{{ def_publication.name }}</a>
+					<div class="section-update">update: 23.03.2023</div>
+				</div>
+				<div class="section-description-text">
+					{{ def_publication.description }}
+				</div>
+				<div class="sections-bottom">
+					<div class="section-tag-category">
+						Prog
+					</div>
+					<div class="section-tag-category">
+						#tag1
+					</div>
+					<div class="section-tag-category">
+						#tag1
+					</div>
+				</div>
 			</div>
-			<div class="section-tag-category">
-				#tag1
-			</div>
-		</div>
-	</div>
-	<div class="section-home">
-		<div class="secton-top-descr">
-			<a href="" class="section-name">Section</a>
-			<div class="section-update">update: 23.03.2023</div>
-		</div>
-		<div class="section-description-text">
-			It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using.
-		</div>
-		<div class="sections-bottom">
-			<div class="section-tag-category">
-				Prog
-			</div>
-			<div class="section-tag-category">
-				#tag1
-			</div>
-			<div class="section-tag-category">
-				#tag1
-			</div>
-		</div>
-	</div>
-	<div class="section-home">
-		<div class="secton-top-descr">
-			<a href="" class="section-name">Section</a>
-			<div class="section-update">update: 23.03.2023</div>
-		</div>
-		<div class="section-description-text">
-			It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using.
-		</div>
-		<div class="sections-bottom">
-			<div class="section-tag-category">
-				Prog
-			</div>
-			<div class="section-tag-category">
-				#tag1
-			</div>
-			<div class="section-tag-category">
-				#tag1
-			</div>
-		</div>
+			{% endfor %}
+		{% endif %}
 	</div>
 </div>
 {% endblock right_container %}
@@ -137,6 +76,122 @@
 
 {% block script %}
 <script>
+	if(document.getElementById('manage_subsections')){
+		document.getElementById('manage_subsections').onclick = function(){
+			document.getElementById('pop-up-overflow-screen').classList.remove('pop-up-hover');
+			document.getElementById('central-pop-up-panel').innerHTML = `
+			<div class="pop-up-header">
+			Manage subsections
+			</div>
+			<div class="pop-up-subsections-list">
+				{% for subsection in section.subsectionmodel_set.all %}
+				<form method="post" class="pop-up-subsection">
+					{% csrf_token %}
+					<input type="hidden" name="delete_subsection_id" value="{{ subsection.id }}">
+					<div class="pop-up-subsection-name">
+						{{ subsection.name }}
+					</div>
+					<div class="pop-up-subsection-buttons">
+						<a href="{{ subsection.get_edit_url }}?parentsection_id={{ section.id }}" class="pop-up-subsection-edit-btn">Edit</a>
+						<button class="pop-up-subsection-delete-btn">Delete</button>
+					</div>
+				</form method="post">
+				{% endfor %}
+			</div>
+			`;
+		}
+	}
+
+	if(document.getElementById('delete-secton-btn')){
+		document.getElementById('delete-secton-btn').onclick = function(){
+			document.getElementById('pop-up-overflow-screen').classList.remove('pop-up-hover');
+			document.getElementById('central-pop-up-panel').innerHTML = `
+			<div class="pop-up-header">
+				Delete
+			</div>
+			<div class="pop-up-description">
+				Are you sure you want to delete the section called "{{ section.name }}"? All internal data will also be deleted.
+			</div>
+			<form class="form-pop-up" method="post">
+				{% csrf_token %}
+				<input type="hidden" name="delete_section_id" value="{{ section.id }}">
+				<button type="submit">Delete</button>
+			</form>
+			`;
+		}
+	}
+
+	document.getElementById('pop-up-overflow-screen').addEventListener('click', function(evt) {
+	let target = evt.target;
+		if(target.className == 'pop-up-overflow-screen'){
+			document.getElementById('pop-up-overflow-screen').classList.add('pop-up-hover');
+		}
+	}, false);
+
+	function removeSelectClass(){
+		for (let i = 0; i < document.getElementsByClassName('subsection-item').length; i++) {
+			document.getElementsByClassName('subsection-item')[i].classList.remove('subsection-item-select')
+		}
+	}
+
+	$('.subsection-item').click(function(){
+		let sub_id = $(this).data('sub_id');
+		removeSelectClass();
+		$(this).addClass('subsection-item-select');
+		$.ajax({
+			data: $(this).serialize(),
+			url: `{% url 'get_subsection_value' %}?count=2&sub_id=${sub_id}`,
+			success: function(response){
+				let data = '';
+				
+				// if publications not found
+				if(response['sub_objects'].length == 0){
+					data =`
+					<div class="subsections-publications-not-found">
+						<div class="publications-not-found-title">
+							Publications not found
+						</div>
+						<div class="publications-not-found-create">
+							You can create a <a href="{% url 'new_publication' %}?parentsection_id={{ section.id }}">new post</a>.
+						</div>
+					</div>`
+				}
+				// if publications found
+				else{
+					response.sub_objects.forEach(element => {
+						data =`
+						<div class="section-home">
+							<div class="secton-top-descr">
+								<a href="/section/publication/${element.id}?parent_section_id={{ section.id }}" class="section-name">${element.name}</a>
+								<div class="section-update">update: 23.03.2023</div>
+							</div>
+							<div class="section-description-text">
+								${element.description}
+							</div>
+							<div class="sections-bottom">
+								<div class="section-tag-category">
+									Prog
+								</div>
+								<div class="section-tag-category">
+									#tag1
+								</div>
+								<div class="section-tag-category">
+									#tag1
+								</div>
+							</div>
+						</div>`
+					});
+				}
+				document.getElementById('publication_container').innerHTML = data;
+			},
+			error: function(response){
+				console.log(response.responseJSON.errors);
+			}
+		});
+		return false;
+	});
+
+
 	document.getElementById('section-detail-wrap').onclick = function(){
     	document.getElementById('section-detail-menu').classList.toggle('section-menu-hidden');
     }

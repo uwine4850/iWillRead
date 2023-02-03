@@ -19,7 +19,7 @@
 <div class="section-description-wrap">
 	<div class="section-top">
 		<div class="section-path-name">
-			arts/paint/
+			New publication
 		</div>
 		<div id="section-detail-wrap" class="section-detail-wrap">
 			<button class="section-detail-btn">
@@ -29,8 +29,8 @@
 				<a href="#" class="section-detail-menu-item">
 					Edit
 				</a>
-				<a href="#" class="section-detail-menu-item">
-					New subsections
+				<a href="{% url 'new_subsection_publication' %}?publication_id={{ publication.id }}" class="section-detail-menu-item">
+					New section
 				</a>
 				<a href="#" class="section-detail-menu-item delete-secton-btn">
 					Delete
@@ -40,26 +40,22 @@
 	</div>
 	<div class="section-image">
 		<div class="section-image-wrap">
-			<img src="{% static 'img/temp/2.jpg' %}" alt="">
+			<img src="{{ publication.image.url }}" alt="">
 		</div>
 	</div>
 	<div class="section-text">
-		It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+		{{ publication.description }}
 	</div>
 	<form method="post" class="header-search subsections-search">
 		<input placeholder="Type a section address" type="text">
 		<button>Search</button>
 	</form>
 	<div class="subsections-wrap">
+		{% for psection in publication.publicationsection_set.all %}
 		<a href="" class="subsection-item">
-			Paint 🎨
+			{{ psection.name }}
 		</a>
-		<a href="" class="subsection-item">
-			Drawing ✏️
-		</a>
-		<a href="" class="subsection-item">
-			Pixel art 👾
-		</a>
+		{% endfor %}
 	</div>
 </div>
 {% endblock left_container %}

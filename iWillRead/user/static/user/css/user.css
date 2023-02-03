@@ -1,0 +1,167 @@
+*{
+	padding: 0;
+	margin: 0;
+	color: #fff;
+	font-family: 'Blinker', sans-serif;
+}
+
+body{
+	background-color: #1C1F2A;
+}
+
+.container{
+	display: flex;
+	margin: 0 auto;
+	height: 100vh;
+	width: 80%;
+}
+
+.container-left{
+	width: 30%;
+	height: 100%;
+	background-color: #161621;
+}
+
+.container-right{
+	width: 70%;
+	height: 100%;
+	border-left: 1px solid #373B4B;
+	display: flex;
+}
+
+.auth-container{
+	margin: auto auto;
+	background-color: #161621;
+	padding: 10px;
+	width: 500px;
+}
+
+.auth-fields{
+	display: flex;
+	flex-direction: column;
+}
+
+.authForm{
+	display: flex;
+	flex-direction: column;
+	width: 500px;
+}
+
+.authForm p{
+	font-size: 13pt;
+	justify-content: space-between;
+	display: flex;
+	flex-wrap: wrap;
+	/* flex-direction: column; */
+	margin-bottom: 15px;
+}
+
+.authForm p label{
+	/* width: 100%; */
+	margin-bottom: 5px;
+}
+
+.authForm p input{
+	background-color: #13131C;
+	border: 1px solid #373B4B;
+	outline: none;
+	border-radius: 5px;
+	font-size: 13pt;
+	padding: 5px;
+	place-content: '';
+	font-family: 'Nunito', sans-serif;
+	width: 100%;
+}
+
+.authForm p input[type="checkbox"]{
+	background-color: #fff;
+	width: 20px;
+	margin: auto 0;
+	margin-right: auto;
+	margin-left: 20px;
+	margin-top: 5px;
+}
+
+.authForm p input::placeholder{
+	color: transparent;
+}
+
+.submit-auth-btn{
+	height: 35px;
+	background-color: #00A811;
+	border: none;
+	outline: none;
+	border-radius: 5px;
+	font-size: 13pt;
+	transition: .1s;
+}
+
+.submit-auth-btn:hover{
+	cursor: pointer;
+	filter: brightness(95%);
+}
+
+.left-container-auth{
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	padding: 10px;
+	display: flex;
+	flex-direction: column;
+}
+
+.logo{
+    margin: 0 auto;
+	width: fit-content;
+	font-family: 'Alegreya Sans SC', sans-serif;
+    font-size: 20pt;
+	margin-top: 20px;
+}
+
+.auth-text{
+	font-family: 'Nunito', sans-serif;
+}
+
+.auth-list{
+	width: 100%;
+	margin-top: 20px;
+	display: flex;
+	flex-direction: column;
+}
+
+.auth-list a{
+	padding: 10px 5px;
+	width: 100%;
+	margin-bottom: 10px;
+	box-sizing: border-box;
+	transition: .1s;
+	border-radius: 5px;
+	font-size: 13pt;
+	text-decoration: none;
+}
+
+.auth-list a:hover{
+	cursor: pointer;
+	background-color: #373B4B;
+}
+
+.auth-bottom-text{
+	margin-top: 10px;
+}
+
+.log-out-container{
+    margin: auto auto;
+    margin-top: 100px;
+}
+
+.log-out-container p{
+    margin-bottom: 10px;
+}
+
+#loagoutBtn{
+    background-color: rgb(229, 22, 22);
+}
+
+.select-auth{
+	background-color: #373B4B;
+}

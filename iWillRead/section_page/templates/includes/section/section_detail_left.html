@@ -1,0 +1,72 @@
+<div class="section-description-wrap">
+	<div class="section-top">
+		<div class="section-path-name">
+			Section "{{ section.name }}"
+		</div>
+		<div id="section-detail-wrap" class="section-detail-wrap">
+			<button class="section-detail-btn">
+				Detail
+			</button>
+			<div id="section-detail-menu" class="section-detail-menu section-menu-hidden">
+				{% if not section.subsectionmodel_set.count == 0 %}
+					<a href="{% url 'new_publication' %}?parentsection_id={{ section.id }}" class="section-detail-menu-item">
+						New publication
+					</a>
+				{% endif %}
+				{% if section.parent_profile == user.profilemodel %}
+					{% if section.subsectionmodel_set.count %}
+						<div id="manage_subsections" class="section-detail-menu-item">
+							Manage subsections
+						</div>
+					{% endif %}
+					<a href="{{ section.get_edit_url }}" class="section-detail-menu-item">
+						Edit
+					</a>
+					<a href="{% url 'new_subsection' %}?parentsection_id={{ section.id }}" class="section-detail-menu-item">
+						New subsections
+					</a>
+					<div class="section-detail-menu-item delete-secton-btn" id="delete-secton-btn">
+						Delete
+					</div>
+				{% endif %}
+				{% if not section.subsectionmodel_set.count and not section.parent_profile == user.profilemodel %}
+				No action
+				{% endif %}
+			</div>
+		</div>
+	</div>
+	<div class="section-image">
+		<div class="section-image-wrap">
+			<img src="{{ section.image.url }}" alt="">
+		</div>
+	</div>
+	<div class="section-text">
+		{{ section.description|safe }}
+	</div>
+	<form method="post" class="header-search subsections-search">
+		<input placeholder="Type a section address" type="text">
+		<button>Search</button>
+	</form>
+	<div class="subsections-wrap">
+		{% if section.subsectionmodel_set.count == 0 %}
+		<div class="subsections-not-found">
+			Subsections not found
+		</div>
+		{% else %}
+			{% for subsection in section.subsectionmodel_set.all %}
+			{% if subsection.id == default_ss.id %}
+			<a data-sub_id="{{ subsection.id }}" id="subsection-item" class="subsection-item subsection-item-select">
+				{{ subsection.name }}
+			</a>
+			{% else %}
+			<a data-sub_id="{{ subsection.id }}" id="subsection-item" class="subsection-item">
+				{{ subsection.name }}
+			</a>
+			{% endif %}
+			{% endfor %}
+		{% endif %}
+	</div>
+		<div class="section-tags">
+		<div class="s-tag">{{ tags }}</div>
+	</div>
+</div>

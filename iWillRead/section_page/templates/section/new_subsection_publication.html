@@ -19,7 +19,8 @@
 <div class="section-description-wrap">
 	<div class="section-top">
 		<div class="section-path-name">
-			arts/pub/
+			New publication section
+<!--			<a href="{{ publication.get_absolute_url }}">{{ publication.name }}/</a><a> paint/</a>-->
 		</div>
 		<div id="section-detail-wrap" class="section-detail-wrap">
 			<button class="section-detail-btn">
@@ -29,8 +30,8 @@
 				<a href="#" class="section-detail-menu-item">
 					Edit
 				</a>
-				<a href="#" class="section-detail-menu-item">
-					New subsections
+				<a class="section-detail-menu-item">
+					New section
 				</a>
 				<a href="#" class="section-detail-menu-item delete-secton-btn">
 					Delete
@@ -40,11 +41,11 @@
 	</div>
 	<div class="section-image">
 		<div class="section-image-wrap">
-			<img src="{% static 'img/temp/2.jpg' %}" alt="">
+			<img src="{{ publication.image.url }}" alt="">
 		</div>
 	</div>
 	<div class="section-text">
-		It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+		{{ publication.description }}
 	</div>
 	<form method="post" class="header-search subsections-search">
 		<input placeholder="Type a section address" type="text">
@@ -66,12 +67,14 @@
 
 
 {% block right_container %}
-<div class="new-section-form">
+<form method="post" enctype="multipart/form-data" class="new-section-form">
+	{% csrf_token %}
+	{{ form.media }}
 	<div class="new-form-info">
 		<div class="new-form-title">
 			New pulication subsection
 		</div>
-		<button class="new-form-seve-btn">
+		<button type="submit" class="new-form-seve-btn">
 			Create
 		</button>
 	</div>
@@ -80,15 +83,30 @@
 			<div class="form-title">
 				Name
 			</div>
-			<input type="text">
+			{{ form.name }}
+		</div>
+		<div id="form-item-parent-publication" class="form-item">
+			<div class="form-title">
+				Publication
+			</div>
+			{{ form.parent_publication }}
+		</div>
+		<div class="form-item">
+			<div class="form-title">
+				Content
+			</div>
+			{{ form.content }}
 		</div>
 	</div>
-</div>
+</form>
 {% endblock right_container %}
 
 
 {% block script %}
 <script>
+	document.getElementById('form-item-parent-publication').querySelector('input').value = '{{ publication.id }}';
+
+
 	document.getElementById('section-detail-wrap').onclick = function(){
     	document.getElementById('section-detail-menu').classList.toggle('section-menu-hidden');
     }

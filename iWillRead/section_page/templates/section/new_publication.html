@@ -18,8 +18,7 @@
 {%block left_container %}
 <div class="section-description-wrap">
 	<div class="section-top">
-		<div class="section-path-name">
-			arts/
+		<div id="section-path-name" class="section-path-name">
 		</div>
 		<div id="section-detail-wrap" class="section-detail-wrap">
 			<button class="section-detail-btn">
@@ -29,7 +28,7 @@
 				<a href="#" class="section-detail-menu-item">
 					Edit
 				</a>
-				<a href="#" class="section-detail-menu-item">
+				<a href="" class="section-detail-menu-item">
 					New subsections
 				</a>
 				<a href="#" class="section-detail-menu-item delete-secton-btn">
@@ -39,66 +38,100 @@
 		</div>
 	</div>
 	<div class="section-image">
-		<div class="section-image-wrap">
-			<img src="{% static 'img/temp/2.jpg' %}" alt="">
+		<div id="section-image-wrap" class="section-image-wrap">
 		</div>
 	</div>
-	<div class="section-text">
-		It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+	<div id="section-text" class="section-text">
 	</div>
 	<form method="post" class="header-search subsections-search">
 		<input placeholder="Type a section address" type="text">
 		<button>Search</button>
 	</form>
 	<div class="subsections-wrap">
-		<a href="" class="subsection-item">
-			Paint 🎨
-		</a>
-		<a href="" class="subsection-item">
-			Drawing ✏️
-		</a>
-		<a href="" class="subsection-item">
-			Pixel art 👾
-		</a>
+		<div class="subsections-not-found">
+			Subsections not found
+		</div>
+	</div>
+	<div class="section-tags">
+		<div class="s-tag">#sfsff</div>
+		<div class="s-tag">#11</div>
+		<div class="s-tag">#hello</div>
 	</div>
 </div>
 {% endblock left_container %}
 
 
 {% block right_container %}
-<div class="new-section-form">
+<form method="post" enctype="multipart/form-data" class="new-section-form">
+	{% csrf_token %}
+	{{ form.media }}
 	<div class="new-form-info">
 		<div class="new-form-title">
-			New section
+			New publication for <b>{{ current_section.name }}</b> section.
 		</div>
-		<button class="new-form-seve-btn">
+		<button type="submit" class="new-form-seve-btn">
 			Create
 		</button>
 	</div>
-	
-	<!-- <div class="form-tabs">
+	<div class="form-tabs publication-form">
 		<div id="tab-content" class="tab-content">
-			{% include 'includes/section/base_tab_publication.html' %}
+			<div class="form-items-wrap">
+				<div id="form-item-name" class="form-item">
+					<div class="form-title">
+						Name
+					</div>
+					{{ form.name }}
+				</div>
+				<div id="form-item-description" class="form-item">
+					<div class="form-title">
+						Description
+					</div>
+					{{ form.description }}
+				</div>
+				<div id="form-item-image" class="form-item">
+					<div class="form-title">
+						Image
+					</div>
+					{{ form.image }}
+				</div>
+				<div class="form-item">
+					<div class="form-title">
+						Category
+					</div>
+					<select id="select_category">
+						{% for category in current_section.subsectionmodel_set.all %}
+						<option value="{{ category.id }}">{{ category.name }}</option>
+						{% endfor %}
+					</select>
+				</div>
+				<div id="form-item-category" class="form-item">
+					{{ form.category }}
+				</div>
+				<div class="form-item">
+					<div class="form-title">
+						Tags
+					</div>
+					{{ form.tags }}
+				</div>
+			</div>
 		</div>
-	</div> -->
-</div>
+	</div>
+</form>
 {% endblock right_container %}
 
 
 {% block script %}
+<script src="{% static 'js/section/section.js' %}"></script>
 
 <script>
-	document.getElementById('section-detail-wrap').onclick = function(){
-    	document.getElementById('section-detail-menu').classList.toggle('section-menu-hidden');
-    }
-	let style_tab_btn = document.getElementById('style-tab');
-	let base_tab_btn = document.getElementById('base-tab');
-	style_tab_btn.onclick = function(){
-		document.getElementById('tab-content').innerHTML = `{% include 'includes/section/base_tab_publication.html' %}`;
-		if(!style_tab_btn.classList.contains('tab-btn-active')){
-			style_tab_btn.classList.add('tab-btn-active');
-			base_tab_btn.classList.remove('tab-btn-active');
-		}
+	let form_category = document.getElementById('form-item-category'); 
+	let select_category = document.getElementById('select_category');
+	console.log(select_category);
+	form_category.querySelector('select').value = select_category.value;
+	form_category.style.display = 'none';
+	select_category.onchange = function(){
+		form_category.querySelector('select').value = this.value;
 	}
+
 </script>
 {% endblock script %}

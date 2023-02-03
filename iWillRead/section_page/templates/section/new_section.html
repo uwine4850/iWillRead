@@ -18,8 +18,7 @@
 {%block left_container %}
 <div class="section-description-wrap">
 	<div class="section-top">
-		<div class="section-path-name">
-			arts/
+		<div id="section-path-name" class="section-path-name">
 		</div>
 		<div id="section-detail-wrap" class="section-detail-wrap">
 			<button class="section-detail-btn">
@@ -32,6 +31,9 @@
 				<a href="#" class="section-detail-menu-item">
 					New subsections
 				</a>
+				<a href="#" class="section-detail-menu-item">
+					New publication
+				</a>
 				<a href="#" class="section-detail-menu-item delete-secton-btn">
 					Delete
 				</a>
@@ -39,39 +41,40 @@
 		</div>
 	</div>
 	<div class="section-image">
-		<div class="section-image-wrap">
-			<img src="{% static 'img/temp/2.jpg' %}" alt="">
+		<div id="section-image-wrap" class="section-image-wrap">
+			{% if section.image.url %}
+				<img src="{{ section.image.url }}">
+			{% else %}
+				<img src="{% static 'img/default.jpg' %}">
+			{% endif %}
 		</div>
 	</div>
-	<div class="section-text">
-		It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+	<div id="section-text" class="section-text">
 	</div>
 	<form method="post" class="header-search subsections-search">
 		<input placeholder="Type a section address" type="text">
 		<button>Search</button>
 	</form>
 	<div class="subsections-wrap">
-		<a href="" class="subsection-item">
-			Paint 🎨
-		</a>
-		<a href="" class="subsection-item">
-			Drawing ✏️
-		</a>
-		<a href="" class="subsection-item">
-			Pixel art 👾
-		</a>
+		<div class="subsections-not-found">
+			Subsections not found
+		</div>
+	</div>
+	<div id="section-tags" class="section-tags">
+
 	</div>
 </div>
 {% endblock left_container %}
 
 
 {% block right_container %}
-<div class="new-section-form">
+<form method="post" enctype="multipart/form-data" class="new-section-form">
+	{% csrf_token %}
 	<div class="new-form-info">
 		<div class="new-form-title">
 			New section
 		</div>
-		<button class="new-form-seve-btn">
+		<button type="submit" class="new-form-seve-btn">
 			Create
 		</button>
 	</div>
@@ -81,14 +84,43 @@
 			<button id="style-tab" class="tab-btn">Style</button>
 		</div>
 		<div id="tab-content" class="tab-content">
-			{% include 'includes/section/base_tab_section.html' %}
+			{{ form.media }}
+			<div class="form-items-wrap">
+				<div id="form-item-name" class="form-item">
+					<div class="form-title">
+						Name
+					</div>
+					{{ form.name }}
+				</div>
+				<div id="form-item-description" class="form-item">
+					<div class="form-title">
+						Description
+					</div>
+					{{ form.description }}
+				</div>
+				<div id="form-item-image" class="form-item">
+					<div class="form-title">
+						Image
+					</div>
+					{{ form.image }}
+				</div>
+				<div id="tags-item" class="form-item">
+					<div class="form-title">
+						Tags
+					</div>
+					{{ form.tags }}
+				</div>
+			</div>
+			<!-- {% include 'includes/section/base_tab_section.html' %} -->
 		</div>
 	</div>
-</div>
+</form>
 {% endblock right_container %}
 
 
 {% block script %}
+<script src="{% static 'js/section/section.js' %}"></script>
+
 <script>
 	document.getElementById('section-detail-wrap').onclick = function(){
     	document.getElementById('section-detail-menu').classList.toggle('section-menu-hidden');

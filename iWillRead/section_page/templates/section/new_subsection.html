@@ -16,62 +16,18 @@
 
 
 {%block left_container %}
-<div class="section-description-wrap">
-	<div class="section-top">
-		<div class="section-path-name">
-			arts/
-		</div>
-		<div id="section-detail-wrap" class="section-detail-wrap">
-			<button class="section-detail-btn">
-				Detail
-			</button>
-			<div id="section-detail-menu" class="section-detail-menu section-menu-hidden">
-				<a href="#" class="section-detail-menu-item">
-					Edit
-				</a>
-				<a href="#" class="section-detail-menu-item">
-					New subsections
-				</a>
-				<a href="#" class="section-detail-menu-item delete-secton-btn">
-					Delete
-				</a>
-			</div>
-		</div>
-	</div>
-	<div class="section-image">
-		<div class="section-image-wrap">
-			<img src="{% static 'img/temp/2.jpg' %}" alt="">
-		</div>
-	</div>
-	<div class="section-text">
-		It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
-	</div>
-	<form method="post" class="header-search subsections-search">
-		<input placeholder="Type a section address" type="text">
-		<button>Search</button>
-	</form>
-	<div class="subsections-wrap">
-		<a href="" class="subsection-item">
-			Paint 🎨
-		</a>
-		<a href="" class="subsection-item">
-			Drawing ✏️
-		</a>
-		<a href="" class="subsection-item">
-			Pixel art 👾
-		</a>
-	</div>
-</div>
+{% include 'includes/section/section_detail_left.html' %}
 {% endblock left_container %}
 
 
 {% block right_container %}
-<div class="new-section-form">
+<form method="post" enctype="multipart/form-data" class="new-section-form">
+	{% csrf_token %}
 	<div class="new-form-info">
 		<div class="new-form-title">
 			New subsection
 		</div>
-		<button class="new-form-seve-btn">
+		<button type="submit" class="new-form-seve-btn">
 			Create
 		</button>
 	</div>
@@ -80,15 +36,23 @@
 			<div class="form-title">
 				Name
 			</div>
-			<input type="text">
+			{{ form.name }}
+		</div>
+		<div id="form-item-parent-section">
+			{{ form.parent_section }}
 		</div>
 	</div>
-</div>
+</form>
 {% endblock right_container %}
 
 
 {% block script %}
 <script>
+	let form_parent_section = document.getElementById('form-item-parent-section'); 
+	form_parent_section.style.display = 'none';
+	form_parent_section.querySelector('select').value = '{{ section.id }}';
+
+
 	document.getElementById('section-detail-wrap').onclick = function(){
     	document.getElementById('section-detail-menu').classList.toggle('section-menu-hidden');
     }

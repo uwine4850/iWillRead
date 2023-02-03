@@ -1,7 +1,7 @@
 from django.urls import path
-from .views import test
+from .views import SectionView
 from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
-    path('', login_required(test), name='home'),
+    path('', login_required(SectionView.as_view()), name='home'),
 ]

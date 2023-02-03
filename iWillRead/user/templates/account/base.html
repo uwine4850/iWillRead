@@ -1,0 +1,46 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="{% static 'user/css/user.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nunito:ital,wght@0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;0,1000;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900;1,1000&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Blinker:wght@100;200;300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Alegreya+Sans+SC:ital,wght@0,100;0,300;0,400;0,500;0,700;0,800;0,900;1,100;1,300;1,400;1,500;1,700;1,800;1,900&display=swap" rel="stylesheet">
+  <title>Document</title>
+</head>
+<body>
+  <div class="container">
+    <div class="container-left">
+      <div class="left-container-auth">
+        <div class="logo">
+          iWillRead
+        </div>
+        <div class="auth-text">
+          Hello 👋 It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.
+        </div>
+        <div class="auth-list">
+          <a id="register" href="{% url 'account_signup' %}">Register</a>
+          <a id="log_in" href="{% url 'account_login' %}">Log in</a>
+          <a id="reset_passw" href="{% url 'account_reset_password' %}">Reset password</a>
+        </div>
+      </div>
+    </div>
+    <div class="container-right">
+      {% block container_right %}
+      {% endblock container_right %}
+    </div>
+  </div>
+  <script>
+    function SetActiveBtn(id){
+      document.getElementById(id).classList.add('select-auth');
+    }
+  </script>
+  {% block script %}
+  {% endblock script %}
+</body>
+</html>

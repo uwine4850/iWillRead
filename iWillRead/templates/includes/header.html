@@ -9,11 +9,11 @@
         <button>Search</button>
     </form>
     <div class="menu-header">
-        <a href="#">
+        <a href="{% url 'home' %}">
             <img src="{% static 'img/base/home.svg' %}" alt="">
             <div>Home</div>
         </a>
-        <a href="#">
+        <a href="{% url 'new_section' %}">
             <img src="{% static 'img/base/create_section.svg' %}" alt="">
             <div>Create new section</div>
         </a>

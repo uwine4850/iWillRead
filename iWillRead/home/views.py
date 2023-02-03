@@ -1,7 +1,15 @@
-from django.shortcuts import render
+from django.views.generic import ListView
+# from iWillRead.section_page.models import SectionModel
+from section_page.models import SectionModel
 
 
-def test(request):
-    return render(request, 'home/home.html')
+class SectionView(ListView):
+    model = SectionModel
+    context_object_name = 'sections'
+    template_name = 'home/home.html'
+
+
+# def test(request):
+#     return render(request, 'home/home.html')
 
 

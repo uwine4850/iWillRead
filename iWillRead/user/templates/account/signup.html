@@ -1,0 +1,18 @@
+{% extends "account/base.html" %}
+{% load static %}
+
+{% block container_right %}
+<div class="auth-container">
+    <form class="authForm" id="signup_form" method="post" action="{% url 'account_signup' %}">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <button class="submit-auth-btn" type="submit">Sign Up</button>
+    </form>
+</div>
+{% endblock container_right %}
+
+{% block script %}
+<script>
+  SetActiveBtn('register');
+</script>
+{% endblock script %}
