@@ -20,4 +20,3 @@ class ProfileModel(models.Model):
     def create_profile(sender, instance, created, *args, **kwargs):
         if created and instance.username != 'root':
             ProfileModel.objects.create(user=instance)
-

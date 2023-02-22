@@ -182,7 +182,7 @@
 	border-left: 1px solid #373B4B;
 	box-sizing: border-box;
 	padding: 10px;
-	overflow-y: scroll;
+	/* overflow-y: scroll; */
 }
 
 .new-form-info{
@@ -214,14 +214,15 @@
 .form-tabs{
 	display: flex;
 	flex-direction: column;
-	height: calc(100% - 30px);
+	margin-top: 10px;
+	height: calc(100% - 40px);
 }
 
 .f-tabs{
 	display: flex;
 }
 
-.tab-btn{
+/* .tab-btn{
 	width: 100px;
 	height: 30px;
 	background-color: #373B4B;
@@ -236,7 +237,7 @@
 .tab-btn:hover{
 	cursor: pointer;
 	background-color: #1D1F29;
-}
+} */
 
 .tab-content{
 	background-color: #1D1F29;
@@ -334,10 +335,6 @@
 .s-tag{
 	margin-right: 5px;
 	color: rgb(69, 69, 255);
-}
-
-.publication-form{
-    margin-top: 10px;
 }
 
 .subsections-not-found{
@@ -469,6 +466,10 @@ pre{
 .pop-up-subsection-buttons{
 	display: flex;
 	margin-left: auto;
+}
+
+.pop-up-subsection-buttons a{
+	text-decoration: none;
 }
 
 .pop-up-subsection-buttons button{

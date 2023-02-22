@@ -153,7 +153,7 @@ TINYMCE_DEFAULT_CONFIG = {
     'contextmenu': 'formats | link image',
     'block_formats': 'Paragraph=p; Header 1=h1; Header 2=h2',
     'fontsize_formats': "8pt 10pt 12pt 14pt 16pt 18pt",
-    'content_style': "body { font-family: Arial; background: #1D1F29; color: #fff; font-size: 12pt; line-height: 1;}",
+    'content_style': "body { font-family: Arial; background: #1D1F29; color: #fff; font-size: 12pt; line-height: 1; resize: vertical;}",
     'codesample_languages': [
         {'text': 'Python', 'value': 'python'}, {'text': 'HTML/XML', 'value': 'markup'},],
     'image_class_list': [{'title': 'Fluid', 'value': 'img-fluid', 'style': {} }],
@@ -161,5 +161,8 @@ TINYMCE_DEFAULT_CONFIG = {
     "height": "350px",
     'image_caption': True,
     "images_upload_url": "upload_image",
-    'statusbar': False,
+    # 'statusbar': False,
+    # 'resize': True
 }
+
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5242880

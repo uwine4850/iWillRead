@@ -26,11 +26,11 @@
 				Detail
 			</button>
 			<div id="section-detail-menu" class="section-detail-menu section-menu-hidden">
-				<a href="#" class="section-detail-menu-item">
-					Edit
+				<a href="{{ publication.get_category_edit_url }}?parentsection_id={{ parentsection_id }}" class="section-detail-menu-item">
+					Edit content
 				</a>
-				<a href="{% url 'new_subsection_publication' %}?publication_id={{ publication.id }}" class="section-detail-menu-item">
-					New section
+				<a href="{{ publication.get_edit_url }}?parentsection_id={{ parentsection_id }}" class="section-detail-menu-item">
+					Edit publication
 				</a>
 				<a href="#" class="section-detail-menu-item delete-secton-btn">
 					Delete
@@ -44,9 +44,9 @@
 		</div>
 	</div>
 	<div class="section-text">
-		{{ publication.description }}
+		{{ publication.description|safe }}
 	</div>
-	<form method="post" class="header-search subsections-search">
+	<!-- <form method="post" class="header-search subsections-search">
 		<input placeholder="Type a section address" type="text">
 		<button>Search</button>
 	</form>
@@ -56,14 +56,15 @@
 			{{ psection.name }}
 		</a>
 		{% endfor %}
-	</div>
+	</div> -->
 </div>
 {% endblock left_container %}
 
 
 {% block right_container %}
 <div class="publication-place">
-	<div class="publication-text">
+	{{ publication.content|safe }}
+	<!-- <div class="publication-text">
 		It is a long established fact that a reader will be 
 		distracted by the readable content of a page when looking at its layout.
 		It is a long established fact that a reader will be 
@@ -91,7 +92,7 @@
 		packages and web page editors now use Lorem Ipsum as their 
 		default model text, and a search for 'lorem ipsum' will 
 		uncover many web sites still in their infancy.
-	</div>
+	</div> -->
 </div>
 {% endblock right_container %}
 

@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/section/section.css' %}">
+{% endblock css %}
+
+
+{% block title %}Section{% endblock title %}
+
+
+{% block header %}
+{% include 'includes/header.html' %}
+{% endblock header %}
+
+
+{%block left_container %}
+<div class="section-description-wrap">
+	<div class="section-top">
+		<div id="section-path-name" class="section-path-name">
+		</div>
+		<div id="section-detail-wrap" class="section-detail-wrap">
+			<button class="section-detail-btn">
+				Detail
+			</button>
+			<div id="section-detail-menu" class="section-detail-menu section-menu-hidden">
+				<a href="#" class="section-detail-menu-item">
+					Edit
+				</a>
+				<a href="" class="section-detail-menu-item">
+					New subsections
+				</a>
+				<a href="#" class="section-detail-menu-item delete-secton-btn">
+					Delete
+				</a>
+			</div>
+		</div>
+	</div>
+	<div class="section-image">
+		<div id="section-image-wrap" class="section-image-wrap">
+			{% if publication.image.url %}
+				<img src="{{ publication.image.url }}">
+			{% else %}
+				<img src="{% static 'img/default.jpg' %}">
+			{% endif %}
+		</div>
+	</div>
+	<div id="section-text" class="section-text">
+		{{ publication.description|safe }}
+	</div>
+	<div id="section-tags" class="section-tags">
+	</div>
+</div>
+{% endblock left_container %}
+
+
+{% block right_container %}
+<form method="post" enctype="multipart/form-data" class="new-section-form">
+	{% csrf_token %}
+	{{ form.media }}
+	<input type="hidden" value="{{ publication.category.parent_section.id }}" name="parentsection_id">
+	<div class="new-form-info">
+<!--		<div class="new-form-title">-->
+<!--			New publication for <b>{{ current_section.name }}</b> section.-->
+<!--		</div>-->
+		<button type="submit" class="new-form-seve-btn">
+			Create
+		</button>
+	</div>
+	{{ form.content }}
+	{{ form.error }}
+<!--	{% csrf_token %}-->
+<!--	{{ form.media }}-->
+<!--	<div class="new-form-info">-->
+<!--		<div class="new-form-title">-->
+<!--			New publication for <b>{{ current_section.name }}</b> section.-->
+<!--		</div>-->
+<!--		<button type="submit" class="new-form-seve-btn">-->
+<!--			Create-->
+<!--		</button>-->
+<!--	</div>-->
+<!--	<div class="form-tabs">-->
+<!--		<div id="tab-content" class="tab-content">-->
+<!--			<div class="form-items-wrap">-->
+<!--				<div id="form-item-name" class="form-item">-->
+<!--					<div class="form-title">-->
+<!--						Name-->
+<!--					</div>-->
+<!--					{{ form.name }}-->
+<!--				</div>-->
+<!--				<div id="form-item-description" class="form-item">-->
+<!--					<div class="form-title">-->
+<!--						Description-->
+<!--					</div>-->
+<!--					{{ form.description }}-->
+<!--				</div>-->
+<!--				<div id="form-item-image" class="form-item">-->
+<!--					<div class="form-title">-->
+<!--						Image-->
+<!--					</div>-->
+<!--					{{ form.image }}-->
+<!--				</div>-->
+<!--				<div class="form-item">-->
+<!--					<div class="form-title">-->
+<!--						Category-->
+<!--					</div>-->
+<!--					<select id="select_category">-->
+<!--						{% for category in current_section.subsectionmodel_set.all %}-->
+<!--						<option value="{{ category.id }}">{{ category.name }}</option>-->
+<!--						{% endfor %}-->
+<!--					</select>-->
+<!--				</div>-->
+<!--				<div id="form-item-category" class="form-item">-->
+<!--					{{ form.category }}-->
+<!--				</div>-->
+<!--				<div id="tags-item" class="form-item">-->
+<!--					<div class="form-title">-->
+<!--						Tags-->
+<!--					</div>-->
+<!--					{{ form.tags }}-->
+<!--				</div>-->
+<!--			</div>-->
+<!--		</div>-->
+<!--	</div>-->
+</form>
+{% endblock right_container %}
+
+
+{% block script %}
+<script src="{% static 'js/section/section.js' %}"></script>
+
+<!--<script>-->
+<!--	let form_category = document.getElementById('form-item-category'); -->
+<!--	let select_category = document.getElementById('select_category');-->
+<!--	form_category.querySelector('select').value = select_category.value;-->
+<!--	form_category.style.display = 'none';-->
+<!--	select_category.onchange = function(){-->
+<!--		form_category.querySelector('select').value = this.value;-->
+<!--		console.log(form_category.querySelector('select').value);-->
+<!--	}-->
+<!--</script>-->
+{% endblock script %}

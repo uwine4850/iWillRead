@@ -49,11 +49,11 @@
 			{% for def_publication in default_ss_values %}
 			<div class="section-home">
 				<div class="secton-top-descr">
-					<a href="{{ def_publication.get_absolute_url }}?parent_section_id={{ section.id }}" class="section-name">{{ def_publication.name }}</a>
+					<a href="{{ def_publication.get_absolute_url }}?parentsection_id={{ section.id }}" class="section-name">{{ def_publication.name }}</a>
 					<div class="section-update">update: 23.03.2023</div>
 				</div>
 				<div class="section-description-text">
-					{{ def_publication.description }}
+					{{ def_publication.description|safe }}
 				</div>
 				<div class="sections-bottom">
 					<div class="section-tag-category">
@@ -159,10 +159,11 @@
 				// if publications found
 				else{
 					response.sub_objects.forEach(element => {
-						data =`
+						console.log(element.id);
+						data +=`
 						<div class="section-home">
 							<div class="secton-top-descr">
-								<a href="/section/publication/${element.id}?parent_section_id={{ section.id }}" class="section-name">${element.name}</a>
+								<a href="/section/publication/${element.id}?parentsection_id={{ section.id }}" class="section-name">${element.name}</a>
 								<div class="section-update">update: 23.03.2023</div>
 							</div>
 							<div class="section-description-text">

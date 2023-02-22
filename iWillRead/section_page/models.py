@@ -1,5 +1,4 @@
 from django.db import models
-from tinymce.models import HTMLField
 from django.shortcuts import reverse
 from django.db.models.signals import pre_save
 from django.dispatch import receiver
@@ -48,17 +47,37 @@ class SubSectionModel(models.Model):
 
 
 class PublicationModel(models.Model):
+    parent_profile = models.ForeignKey(ProfileModel, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=100)
     description = HTMLField(max_length=300)
     image = models.ImageField(upload_to='publicationTitleImages/', null=True)
     category = models.ForeignKey(SubSectionModel, on_delete=models.CASCADE)
     tags = models.CharField(max_length=300)
+    content = HTMLField(max_length=300, blank=True, null=True)
+
+    def get_category_edit_url(self):
+        return reverse('edit_publication_content', kwargs={'slug': self.id})
+
+    def get_edit_url(self):
+        return reverse('edit_publication', kwargs={'slug': self.id})
 
     def get_absolute_url(self):
         return reverse('publication', kwargs={'slug': self.id})
 
     def __str__(self):
         return f"{self.id} - {self.name}"
+
+
+@receiver(pre_save, sender=PublicationModel)
+def add_profile_to_section(sender, instance, *args, **kwargs):
+    import inspect
+    request = None
+    for frame_record in inspect.stack():
+        if frame_record[3] == 'get_response':
+            request = frame_record[0].f_locals['request']
+            break
+    if request and request.user.username != 'root':
+        instance.parent_profile = ProfileModel.objects.get(user=request.user)
 
 
 class PublicationSection(models.Model):

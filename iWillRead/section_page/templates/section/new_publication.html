@@ -39,23 +39,16 @@
 	</div>
 	<div class="section-image">
 		<div id="section-image-wrap" class="section-image-wrap">
+			{% if publication.image.url %}
+				<img src="{{ publication.image.url }}">
+			{% else %}
+				<img src="{% static 'img/default.jpg' %}">
+			{% endif %}
 		</div>
 	</div>
 	<div id="section-text" class="section-text">
 	</div>
-	<form method="post" class="header-search subsections-search">
-		<input placeholder="Type a section address" type="text">
-		<button>Search</button>
-	</form>
-	<div class="subsections-wrap">
-		<div class="subsections-not-found">
-			Subsections not found
-		</div>
-	</div>
-	<div class="section-tags">
-		<div class="s-tag">#sfsff</div>
-		<div class="s-tag">#11</div>
-		<div class="s-tag">#hello</div>
+	<div id="section-tags" class="section-tags">
 	</div>
 </div>
 {% endblock left_container %}
@@ -73,7 +66,7 @@
 			Create
 		</button>
 	</div>
-	<div class="form-tabs publication-form">
+	<div class="form-tabs">
 		<div id="tab-content" class="tab-content">
 			<div class="form-items-wrap">
 				<div id="form-item-name" class="form-item">
@@ -95,19 +88,20 @@
 					{{ form.image }}
 				</div>
 				<div class="form-item">
+					<input type="hidden" id="category-id" value="{{ publication.category.id }}">
 					<div class="form-title">
 						Category
 					</div>
 					<select id="select_category">
 						{% for category in current_section.subsectionmodel_set.all %}
-						<option value="{{ category.id }}">{{ category.name }}</option>
+							<option value="{{ category.id }}">{{ category.name }}</option>
 						{% endfor %}
 					</select>
 				</div>
 				<div id="form-item-category" class="form-item">
 					{{ form.category }}
 				</div>
-				<div class="form-item">
+				<div id="tags-item" class="form-item">
 					<div class="form-title">
 						Tags
 					</div>
@@ -126,12 +120,17 @@
 <script>
 	let form_category = document.getElementById('form-item-category'); 
 	let select_category = document.getElementById('select_category');
-	console.log(select_category);
 	form_category.querySelector('select').value = select_category.value;
 	form_category.style.display = 'none';
 	select_category.onchange = function(){
 		form_category.querySelector('select').value = this.value;
+		console.log(form_category.querySelector('select').value);
 	}
 
+	let category_value = document.getElementById('category-id').value;
+	if(category_value){
+		select_category.value = category_value;
+		form_category.querySelector('select').value = category_value
+	}
 </script>
 {% endblock script %}
