@@ -44,23 +44,25 @@
 			<img src="{{ publication.image.url }}" alt="">
 		</div>
 	</div>
-	<div class="section-text">
-		{{ publication.description }}
-	</div>
-	<form method="post" class="header-search subsections-search">
-		<input placeholder="Type a section address" type="text">
-		<button>Search</button>
-	</form>
-	<div class="subsections-wrap">
-		<a href="" class="subsection-item">
-			Paint 🎨
-		</a>
-		<a href="" class="subsection-item">
-			Drawing ✏️
-		</a>
-		<a href="" class="subsection-item">
-			Pixel art 👾
-		</a>
+	<div class="section-left-content">
+		<div class="section-text">
+			{{ publication.description }}
+		</div>
+		<form method="post" class="header-search subsections-search">
+			<input placeholder="Type a section address" type="text">
+			<button>Search</button>
+		</form>
+		<div class="subsections-wrap">
+			<a href="" class="subsection-item">
+				Paint 🎨
+			</a>
+			<a href="" class="subsection-item">
+				Drawing ✏️
+			</a>
+			<a href="" class="subsection-item">
+				Pixel art 👾
+			</a>
+		</div>
 	</div>
 </div>
 {% endblock left_container %}
@@ -100,10 +102,15 @@
 	</div>
 </form>
 {% endblock right_container %}
-
+<script type="module" src="{% static 'js/section/section.js' %}"></script>
 
 {% block script %}
 <script>
+	import { contentOperations } from '{% static "js/section/section.js" %}';
+	window.addEventListener("load", () => {
+		contentOperations();
+	});
+	
 	document.getElementById('form-item-parent-publication').querySelector('input').value = '{{ publication.id }}';
 
 

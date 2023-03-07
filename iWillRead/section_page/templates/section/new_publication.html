@@ -17,7 +17,7 @@
 
 {%block left_container %}
 <div class="section-description-wrap">
-	<div class="section-top">
+	<div class="section-top" id="section-top">
 		<div id="section-path-name" class="section-path-name">
 		</div>
 		<div id="section-detail-wrap" class="section-detail-wrap">
@@ -37,7 +37,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="section-image">
+	<div class="section-image" id="section-image">
 		<div id="section-image-wrap" class="section-image-wrap">
 			{% if publication.image.url %}
 				<img src="{{ publication.image.url }}">
@@ -46,9 +46,11 @@
 			{% endif %}
 		</div>
 	</div>
-	<div id="section-text" class="section-text">
-	</div>
-	<div id="section-tags" class="section-tags">
+	<div class="section-left-content" id="section-left-content">
+		<div id="section-text" class="section-text">
+		</div>
+		<div id="section-tags" class="section-tags">
+		</div>
 	</div>
 </div>
 {% endblock left_container %}
@@ -115,9 +117,21 @@
 
 
 {% block script %}
-<script src="{% static 'js/section/section.js' %}"></script>
+<script type="module" src="{% static 'js/section/section.js' %}"></script>
 
-<script>
+<script type="module">
+	import { resizeLeftContent } from '{% static "js/section/section.js" %}';
+	resizeLeftContent('section-top', 'section-image', 'section-left-content');
+
+	window.onresize = function(){
+		resizeLeftContent('section-top', 'section-image', 'section-left-content');
+	}
+
+	import { contentOperations } from '{% static "js/section/section.js" %}';
+	window.addEventListener("load", () => {
+		contentOperations();
+	});
+
 	let form_category = document.getElementById('form-item-category'); 
 	let select_category = document.getElementById('select_category');
 	form_category.querySelector('select').value = select_category.value;

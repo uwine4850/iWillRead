@@ -18,6 +18,8 @@
     <title>{% block title %}{% endblock title %}</title>
 </head>
 <body>
+<div id="overflow-transparent-screen-second" class="overflow-transparent-screen overflow-transparent-screen-hidden"></div>
+<div id="overflow-transparent-screen" class="overflow-transparent-screen overflow-transparent-screen-hidden"></div>
 {% block central_panel %}
 {% endblock central_panel %}
 
@@ -27,7 +29,7 @@
 
 
 <div class="container">
-    <div class="container-jeft-side">
+    <div class="container-jeft-side" id="container-jeft-side">
         {% block left_container %}
         {% endblock left_container %}
     </div>
@@ -39,10 +41,23 @@
 
 <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 
-<script>
+<script type="module">
+    import { OverflowScreen } from '{% static "js/overflow_screen.js" %}';
+    let screen = new OverflowScreen('overflow-transparent-screen');
+    
     if(document.getElementById('profile-menu-wrap')){
         document.getElementById('profile-menu-wrap').onclick = function(){
-            document.getElementById('profile-menu').classList.toggle('profile-menu-hidden');
+            let profile_menu = document.getElementById('profile-menu');
+            profile_menu.classList.toggle('profile-menu-hidden');
+            screen.activateGlobalOverflowScreen();
+            if(screen.activate && profile_menu.classList.contains('profile-menu-hidden')){
+                screen.deactivateGlobalOverflowScreen(function(){});
+            }
+            if(screen.activate){
+                screen.deactivateGlobalOverflowScreenOnClick(function(){
+                    profile_menu.classList.toggle('profile-menu-hidden');
+                });
+            }
         }
     }
 </script>

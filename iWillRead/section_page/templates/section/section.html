@@ -11,11 +11,61 @@
 
 
 {% block central_panel %}
-<div id="pop-up-overflow-screen" class="pop-up-overflow-screen pop-up-hover">
+<!-- <div id="pop-up-overflow-screen" class="pop-up-overflow-screen pop-up-hover">
 	<div id="central-pop-up-panel" class="central-pop-up-panel">
 		
 	</div>
+</div> -->
+
+
+<div id="central-pop-up-panel-manage-subsections" class="central-pop-up-panel central-pop-up-panel-hidden">
+	<div class="pop-up-header">
+	Manage subsections
+	</div>
+	<div class="pop-up-subsections-list">
+		
+		<form method="post" class="pop-up-subsection">
+			{% csrf_token %}
+			<input type="hidden" name="delete_subsection_id" value="6">
+			<div class="pop-up-subsection-name">
+				1
+			</div>
+			<div class="pop-up-subsection-buttons">
+				<a href="/section/subsection/edit/6?parentsection_id=2" class="pop-up-subsection-edit-btn">Edit</a>
+				<button class="pop-up-subsection-delete-btn">Delete</button>
+			</div>
+		</form>
+		
+		<form method="post" class="pop-up-subsection">
+			{% csrf_token %}
+			<input type="hidden" name="delete_subsection_id" value="8">
+			<div class="pop-up-subsection-name">
+				OK!
+			</div>
+			<div class="pop-up-subsection-buttons">
+				<a href="/section/subsection/edit/8?parentsection_id=2" class="pop-up-subsection-edit-btn">Edit</a>
+				<button class="pop-up-subsection-delete-btn">Delete</button>
+			</div>
+		</form>
+		
+	</div>
 </div>
+
+<div id="central-pop-up-panel-delete-section" class="central-pop-up-panel central-pop-up-panel-hidden">
+	<div class="pop-up-header">
+		Delete
+	</div>
+	<div class="pop-up-description">
+		Are you sure you want to delete the section called "{{ section.name }}"? All internal data will also be deleted.
+	</div>
+	<form class="form-pop-up" method="post">
+		{% csrf_token %}
+		<input type="hidden" name="delete_section_id" value="{{ section.id }}">
+		<button type="submit">Delete</button>
+	</form>
+</div>
+
+
 {% endblock central_panel %}
 
 
@@ -75,58 +125,13 @@
 
 
 {% block script %}
-<script>
-	if(document.getElementById('manage_subsections')){
-		document.getElementById('manage_subsections').onclick = function(){
-			document.getElementById('pop-up-overflow-screen').classList.remove('pop-up-hover');
-			document.getElementById('central-pop-up-panel').innerHTML = `
-			<div class="pop-up-header">
-			Manage subsections
-			</div>
-			<div class="pop-up-subsections-list">
-				{% for subsection in section.subsectionmodel_set.all %}
-				<form method="post" class="pop-up-subsection">
-					{% csrf_token %}
-					<input type="hidden" name="delete_subsection_id" value="{{ subsection.id }}">
-					<div class="pop-up-subsection-name">
-						{{ subsection.name }}
-					</div>
-					<div class="pop-up-subsection-buttons">
-						<a href="{{ subsection.get_edit_url }}?parentsection_id={{ section.id }}" class="pop-up-subsection-edit-btn">Edit</a>
-						<button class="pop-up-subsection-delete-btn">Delete</button>
-					</div>
-				</form method="post">
-				{% endfor %}
-			</div>
-			`;
-		}
-	}
+<script type="module">
+	import { resizeLeftContent } from '{% static "js/section/section.js" %}';
+	resizeLeftContent('section-top', 'section-image', 'section-left-content');
 
-	if(document.getElementById('delete-secton-btn')){
-		document.getElementById('delete-secton-btn').onclick = function(){
-			document.getElementById('pop-up-overflow-screen').classList.remove('pop-up-hover');
-			document.getElementById('central-pop-up-panel').innerHTML = `
-			<div class="pop-up-header">
-				Delete
-			</div>
-			<div class="pop-up-description">
-				Are you sure you want to delete the section called "{{ section.name }}"? All internal data will also be deleted.
-			</div>
-			<form class="form-pop-up" method="post">
-				{% csrf_token %}
-				<input type="hidden" name="delete_section_id" value="{{ section.id }}">
-				<button type="submit">Delete</button>
-			</form>
-			`;
-		}
+	window.onresize = function(){
+		resizeLeftContent('section-top', 'section-image', 'section-left-content');
 	}
-
-	document.getElementById('pop-up-overflow-screen').addEventListener('click', function(evt) {
-	let target = evt.target;
-		if(target.className == 'pop-up-overflow-screen'){
-			document.getElementById('pop-up-overflow-screen').classList.add('pop-up-hover');
-		}
-	}, false);
 
 	function removeSelectClass(){
 		for (let i = 0; i < document.getElementsByClassName('subsection-item').length; i++) {
@@ -191,10 +196,51 @@
 		});
 		return false;
 	});
+</script>
 
+<script type="module">
+import { OverflowScreen } from '{% static "js/overflow_screen.js" %}';
+let screen = new OverflowScreen('overflow-transparent-screen');
 
-	document.getElementById('section-detail-wrap').onclick = function(){
-    	document.getElementById('section-detail-menu').classList.toggle('section-menu-hidden');
-    }
+document.getElementById('section-detail-wrap').onclick = function(){
+	let section_detail_menu = document.getElementById('section-detail-menu');
+	section_detail_menu.classList.toggle('section-menu-hidden');
+	screen.activateGlobalOverflowScreen();
+	if(screen.activate && section_detail_menu.classList.contains('section-menu-hidden')){
+		screen.deactivateGlobalOverflowScreen(function(){});
+	}
+	if(screen.activate){
+		screen.deactivateGlobalOverflowScreenOnClick(function(){
+			section_detail_menu.classList.add('section-menu-hidden');
+		});
+	}
+}
+
+document.getElementById('manage_subsections').onclick = function(){
+	let screen_ms = new OverflowScreen('overflow-transparent-screen-second');
+	let central_pop_up_panel_manage_subsections = document.getElementById('central-pop-up-panel-manage-subsections');
+	central_pop_up_panel_manage_subsections.classList.toggle('central-pop-up-panel-hidden');
+	screen_ms.activateGlobalOverflowScreen();
+
+	if(screen_ms.activate){
+		screen_ms.deactivateGlobalOverflowScreenOnClick(function(){
+			central_pop_up_panel_manage_subsections.classList.add('central-pop-up-panel-hidden');
+		});
+	}
+}
+
+document.getElementById('delete-secton-btn').onclick = function(){
+	let screen_ms = new OverflowScreen('overflow-transparent-screen-second');
+	let central_pop_up_panel_delete_section = document.getElementById('central-pop-up-panel-delete-section');
+	central_pop_up_panel_delete_section.classList.toggle('central-pop-up-panel-hidden');
+	screen_ms.activateGlobalOverflowScreen();
+
+	if(screen_ms.activate){
+		screen_ms.deactivateGlobalOverflowScreenOnClick(function(){
+			central_pop_up_panel_delete_section.classList.add('central-pop-up-panel-hidden');
+		});
+	}
+}
+
 </script>
 {% endblock script %}

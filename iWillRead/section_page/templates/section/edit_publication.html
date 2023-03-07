@@ -46,10 +46,12 @@
 			{% endif %}
 		</div>
 	</div>
-	<div id="section-text" class="section-text">
-		{{ publication.description|safe }}
-	</div>
-	<div id="section-tags" class="section-tags">
+	<div class="section-left-content">
+		<div id="section-text" class="section-text">
+			{{ publication.description|safe }}
+		</div>
+		<div id="section-tags" class="section-tags">
+		</div>
 	</div>
 </div>
 {% endblock left_container %}
@@ -61,83 +63,24 @@
 	{{ form.media }}
 	<input type="hidden" value="{{ publication.category.parent_section.id }}" name="parentsection_id">
 	<div class="new-form-info">
-<!--		<div class="new-form-title">-->
-<!--			New publication for <b>{{ current_section.name }}</b> section.-->
-<!--		</div>-->
 		<button type="submit" class="new-form-seve-btn">
 			Create
 		</button>
 	</div>
 	{{ form.content }}
 	{{ form.error }}
-<!--	{% csrf_token %}-->
-<!--	{{ form.media }}-->
-<!--	<div class="new-form-info">-->
-<!--		<div class="new-form-title">-->
-<!--			New publication for <b>{{ current_section.name }}</b> section.-->
-<!--		</div>-->
-<!--		<button type="submit" class="new-form-seve-btn">-->
-<!--			Create-->
-<!--		</button>-->
-<!--	</div>-->
-<!--	<div class="form-tabs">-->
-<!--		<div id="tab-content" class="tab-content">-->
-<!--			<div class="form-items-wrap">-->
-<!--				<div id="form-item-name" class="form-item">-->
-<!--					<div class="form-title">-->
-<!--						Name-->
-<!--					</div>-->
-<!--					{{ form.name }}-->
-<!--				</div>-->
-<!--				<div id="form-item-description" class="form-item">-->
-<!--					<div class="form-title">-->
-<!--						Description-->
-<!--					</div>-->
-<!--					{{ form.description }}-->
-<!--				</div>-->
-<!--				<div id="form-item-image" class="form-item">-->
-<!--					<div class="form-title">-->
-<!--						Image-->
-<!--					</div>-->
-<!--					{{ form.image }}-->
-<!--				</div>-->
-<!--				<div class="form-item">-->
-<!--					<div class="form-title">-->
-<!--						Category-->
-<!--					</div>-->
-<!--					<select id="select_category">-->
-<!--						{% for category in current_section.subsectionmodel_set.all %}-->
-<!--						<option value="{{ category.id }}">{{ category.name }}</option>-->
-<!--						{% endfor %}-->
-<!--					</select>-->
-<!--				</div>-->
-<!--				<div id="form-item-category" class="form-item">-->
-<!--					{{ form.category }}-->
-<!--				</div>-->
-<!--				<div id="tags-item" class="form-item">-->
-<!--					<div class="form-title">-->
-<!--						Tags-->
-<!--					</div>-->
-<!--					{{ form.tags }}-->
-<!--				</div>-->
-<!--			</div>-->
-<!--		</div>-->
-<!--	</div>-->
 </form>
 {% endblock right_container %}
 
 
 {% block script %}
-<script src="{% static 'js/section/section.js' %}"></script>
+<script type="module" src="{% static 'js/section/section.js' %}"></script>
 
-<!--<script>-->
-<!--	let form_category = document.getElementById('form-item-category'); -->
-<!--	let select_category = document.getElementById('select_category');-->
-<!--	form_category.querySelector('select').value = select_category.value;-->
-<!--	form_category.style.display = 'none';-->
-<!--	select_category.onchange = function(){-->
-<!--		form_category.querySelector('select').value = this.value;-->
-<!--		console.log(form_category.querySelector('select').value);-->
-<!--	}-->
-<!--</script>-->
+<script type="module">
+	import { contentOperations } from '{% static "js/section/section.js" %}';
+	window.addEventListener("load", () => {
+		contentOperations();
+	});
+</script>
+
 {% endblock script %}
