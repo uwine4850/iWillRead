@@ -1,0 +1,142 @@
+.container-jeft-side{
+	width: 30%;
+	height: 100%;
+	background-color: #161621;
+}
+
+.container-right-side{
+	width: 70%;
+	height: 100%;
+}
+
+.container-jeft-side-home{
+	height: 100%;
+	margin: auto 0;
+	border-radius: 5px;
+	box-sizing: border-box;
+	padding: 10px;
+}
+
+.popular-sections{
+	display: flex;
+	flex-direction: column;
+	box-sizing: border-box;
+}
+
+.popular-sections-title{
+	font-size: 16pt;
+	font-weight: 600;
+	border-bottom: 1px solid #373B4B;
+	padding-bottom: 3px;
+}
+
+.section-mini{
+	margin-top: 10px;
+	font-family: 'Nunito', sans-serif;
+	text-decoration: none;
+	width: 100%;
+	height: fit-content;
+	background-color: #13131C;
+	border-radius: 5px;
+	border: 1px solid #373B4B;
+	box-sizing: border-box;
+	padding: 5px;
+}
+
+.section-mini-name{
+	font-size: 13pt;
+	display: flex;
+	justify-content: space-between;
+}
+
+.smn-update{
+	font-size: 12pt;
+	color: #373B4B;
+}
+
+.section-mini-descr{
+	width: 100%;
+	flex-wrap: wrap;
+	display: flex;
+}
+
+.section-tag-category{
+	font-family: 'Nunito', sans-serif;
+	width: fit-content;
+	height: 20px;
+	background-color: #13131C;
+	border: 1px solid #373B4B;
+	padding: 2px 5px;
+	border-radius: 5px;
+	margin-right: 10px;
+	margin-top: 10px;
+}
+
+.section-home{
+	margin-top: 10px;
+	width: 100%;
+	background-color: #161621;
+	border-radius: 5px;
+	box-sizing: border-box;
+	padding: 10px;
+}
+
+.secton-top-descr{
+	display: flex;
+	justify-content: space-between;
+	border-bottom: 1px solid #373B4B;
+	padding-bottom: 3px;
+	margin-bottom: 5px;
+}
+
+.container-right-side-home{
+	box-sizing: border-box;
+	padding: 10px;
+	overflow-y: scroll;
+	height: 100%;
+}
+
+.section-name{
+	font-size: 14pt;
+	text-decoration: none;
+	transition: .1s;
+}
+
+.section-name:hover{
+	cursor: pointer;
+	color: rgb(75, 75, 244);
+}
+
+.section-update{
+	font-size: 12pt;
+	color: #373B4B;
+}
+
+.section-description-text{
+	font-family: 'Nunito', sans-serif;
+	display: -webkit-box;
+	text-overflow: ellipsis;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
+	overflow: hidden;
+}
+
+.sections-bottom{
+	display: flex;
+	width: 100%;
+	flex-wrap: wrap;
+}
+
+.overflow-transparent-screen{
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: #00000049;
+	z-index: 100;
+}
+
+.overflow-transparent-screen-hidden{
+	display: none;
+}

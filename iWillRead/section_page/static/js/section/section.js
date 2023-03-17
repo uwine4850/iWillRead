@@ -1,7 +1,14 @@
-export function contentOperations(){
+export function contentOperations(post_func){
+	let f = null;
+	if(post_func){
+		f = post_func;
+	}
+	else{
+		f = function(){}
+	}
 	getDescription('id_description');
 	getName();
-	getImage();
+	getImage(f);
 	getTags();
 }
 
@@ -25,7 +32,7 @@ function getName(){
 	}
 }
 
-function getImage(){
+function getImage(post_func){
 	let image = document.getElementById('form-item-image').querySelector('input');
 	if(image.files[0]){
 		let file = image.files[0];
@@ -40,6 +47,9 @@ function getImage(){
 		new_img.src = URL.createObjectURL(file);
 		document.getElementById('section-image-wrap').innerHTML = '';
 		document.getElementById('section-image-wrap').appendChild(new_img);
+		setTimeout(() => {
+			post_func();
+		}, "200");
 	}
 }
 
@@ -86,4 +96,5 @@ export function resizeLeftContent(section_top_id, section_image_id, section_left
 	let r = section_top.offsetHeight + section_image.offsetHeight;
 	let content_h = container_jeft_side.offsetHeight - r;
 	section_left_content.style.height = (content_h - 5) + 'px';
+	console.log(section_image.offsetHeight);
 }

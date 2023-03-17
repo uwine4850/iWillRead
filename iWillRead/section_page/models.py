@@ -9,7 +9,7 @@ from tinymce.models import HTMLField
 class SectionModel(models.Model):
     parent_profile = models.ForeignKey(ProfileModel, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=100)
-    description = HTMLField(max_length=300)
+    description = HTMLField(max_length=600)
     image = models.ImageField(upload_to='sectionTitleImages/')
     tags = models.CharField(max_length=200)
 
@@ -49,11 +49,11 @@ class SubSectionModel(models.Model):
 class PublicationModel(models.Model):
     parent_profile = models.ForeignKey(ProfileModel, on_delete=models.CASCADE, null=True, blank=True)
     name = models.CharField(max_length=100)
-    description = HTMLField(max_length=300)
+    description = HTMLField(max_length=600)
     image = models.ImageField(upload_to='publicationTitleImages/', null=True)
     category = models.ForeignKey(SubSectionModel, on_delete=models.CASCADE)
     tags = models.CharField(max_length=300)
-    content = HTMLField(max_length=300, blank=True, null=True)
+    content = HTMLField(max_length=3000, blank=True, null=True)
 
     def get_category_edit_url(self):
         return reverse('edit_publication_content', kwargs={'slug': self.id})
@@ -78,12 +78,3 @@ def add_profile_to_section(sender, instance, *args, **kwargs):
             break
     if request and request.user.username != 'root':
         instance.parent_profile = ProfileModel.objects.get(user=request.user)
-
-
-class PublicationSection(models.Model):
-    name = models.CharField(max_length=100)
-    parent_publication = models.ForeignKey(PublicationModel, on_delete=models.CASCADE)
-    content = HTMLField(blank=True, null=True)
-
-    def __str__(self):
-        return self.name

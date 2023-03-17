@@ -63,12 +63,17 @@
 	{{ form.media }}
 	<input type="hidden" value="{{ publication.category.parent_section.id }}" name="parentsection_id">
 	<div class="new-form-info">
+		<div class="new-form-title">
+			Edit publication "{{ publication.name }}".
+		</div>
 		<button type="submit" class="new-form-seve-btn">
 			Create
 		</button>
 	</div>
-	{{ form.content }}
-	{{ form.error }}
+	<div class="edit-publication-content">
+		{{ form.errors }}
+		{{ form.content }}
+	</div>
 </form>
 {% endblock right_container %}
 

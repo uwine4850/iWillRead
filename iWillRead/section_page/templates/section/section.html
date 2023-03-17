@@ -11,12 +11,6 @@
 
 
 {% block central_panel %}
-<!-- <div id="pop-up-overflow-screen" class="pop-up-overflow-screen pop-up-hover">
-	<div id="central-pop-up-panel" class="central-pop-up-panel">
-		
-	</div>
-</div> -->
-
 
 <div id="central-pop-up-panel-manage-subsections" class="central-pop-up-panel central-pop-up-panel-hidden">
 	<div class="pop-up-header">
@@ -125,6 +119,7 @@
 
 
 {% block script %}
+
 <script type="module">
 	import { resizeLeftContent } from '{% static "js/section/section.js" %}';
 	resizeLeftContent('section-top', 'section-image', 'section-left-content');
@@ -216,16 +211,18 @@ document.getElementById('section-detail-wrap').onclick = function(){
 	}
 }
 
-document.getElementById('manage_subsections').onclick = function(){
-	let screen_ms = new OverflowScreen('overflow-transparent-screen-second');
-	let central_pop_up_panel_manage_subsections = document.getElementById('central-pop-up-panel-manage-subsections');
-	central_pop_up_panel_manage_subsections.classList.toggle('central-pop-up-panel-hidden');
-	screen_ms.activateGlobalOverflowScreen();
-
-	if(screen_ms.activate){
-		screen_ms.deactivateGlobalOverflowScreenOnClick(function(){
-			central_pop_up_panel_manage_subsections.classList.add('central-pop-up-panel-hidden');
-		});
+if(document.getElementById('manage_subsections')){
+	document.getElementById('manage_subsections').onclick = function(){
+		let screen_ms = new OverflowScreen('overflow-transparent-screen-second');
+		let central_pop_up_panel_manage_subsections = document.getElementById('central-pop-up-panel-manage-subsections');
+		central_pop_up_panel_manage_subsections.classList.toggle('central-pop-up-panel-hidden');
+		screen_ms.activateGlobalOverflowScreen();
+	
+		if(screen_ms.activate){
+			screen_ms.deactivateGlobalOverflowScreenOnClick(function(){
+				central_pop_up_panel_manage_subsections.classList.add('central-pop-up-panel-hidden');
+			});
+		}
 	}
 }
 

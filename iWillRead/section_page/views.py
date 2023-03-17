@@ -1,6 +1,6 @@
 from django.shortcuts import render, reverse, redirect, resolve_url
 from django.views.generic import CreateView, DetailView, UpdateView
-from .models import SectionModel, SubSectionModel, PublicationModel, PublicationSection
+from .models import SectionModel, SubSectionModel, PublicationModel
 from django.http import JsonResponse, Http404, HttpResponseRedirect, HttpResponse
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from .forms import PublicationContentEditForm, PublicationEditForm
@@ -82,7 +82,7 @@ class PublicationEditPermissionMixin(PermissionRequiredMixin):
 class SectionCreate(CreateView):
     model = SectionModel
     template_name = 'section/new_section.html'
-    fields = '__all__'
+    fields = ('name', 'description', 'image', 'tags')
 
     def get_success_url(self):
         return reverse('section', kwargs={'slug': self.object.id})
@@ -185,6 +185,10 @@ class PublicationDetail(DetailView):
         context['parentsection_id'] = self.request.GET.get('parentsection_id')
         return context
 
+    def post(self, request, *args, **kwargs):
+        PublicationModel.objects.get(id=int(request.POST.get('delete_publication_id'))).delete()
+        return redirect('section', request.GET.get('parentsection_id'))
+
 
 class PublicationContentEdit(PublicationEditPermissionMixin, UpdateView):
     model = PublicationModel
@@ -229,6 +233,12 @@ class PublicationEdit(PublicationEditPermissionMixin, UpdateView):
     form_class = PublicationEditForm
     slug_field = 'id'
 
+    def form_invalid(self, form):
+        upd_error = ''
+        if len(self.request.POST.get('description')) > 600:
+            upd_error = 'Descriptions must not be longer than 600 characters.'
+        return self.render_to_response(self.get_context_data(form=form, error=upd_error))
+
     def get_success_url(self):
         return reverse_witch_query_string('publication', kwargs={'slug': self.object.id},
                                           query_str={'parentsection_id': self.request.GET.get('parentsection_id')})
@@ -237,17 +247,3 @@ class PublicationEdit(PublicationEditPermissionMixin, UpdateView):
         context = super().get_context_data(**kwargs)
         context['current_section'] = SectionModel.objects.get(id=int(self.request.GET.get('parentsection_id')))
         return context
-
-
-# class PublicationSectionCreate(CreateView):
-# 	model = PublicationSection
-# 	template_name = 'section/new_subsection_publication.html'
-# 	fields = '__all__'
-#
-# 	def get_success_url(self):
-# 		return PublicationModel.objects.get(id=int(self.request.GET.get('publication_id'))).get_absolute_url()
-#
-# 	def get_context_data(self, **kwargs):
-# 		context = super().get_context_data(**kwargs)
-# 		context['publication'] = PublicationModel.objects.get(id=int(self.request.GET.get('publication_id')))
-# 		return context

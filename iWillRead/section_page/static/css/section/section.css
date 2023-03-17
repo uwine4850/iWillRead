@@ -188,7 +188,6 @@
 	border-left: 1px solid #373B4B;
 	box-sizing: border-box;
 	padding: 10px;
-	/* overflow-y: scroll; */
 }
 
 .new-form-info{
@@ -499,4 +498,8 @@ pre{
 .pop-up-subsection-edit-btn:hover{
 	color: rgb(69, 69, 255);
 	cursor: pointer;
+}
+
+.edit-publication-content{
+	margin-top: 10px;
 }

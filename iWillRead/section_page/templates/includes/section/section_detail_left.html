@@ -1,6 +1,6 @@
 <div class="section-description-wrap">
 	<div class="section-top" id="section-top">
-		<div class="section-path-name">
+		<div class="section-path-name" id="section-path-name">
 			Section "{{ section.name }}"
 		</div>
 		<div id="section-detail-wrap" class="section-detail-wrap">
@@ -30,7 +30,7 @@
 					</div>
 				{% endif %}
 				{% if not section.subsectionmodel_set.count and not section.parent_profile == user.profilemodel %}
-				No action
+					No action
 				{% endif %}
 			</div>
 		</div>

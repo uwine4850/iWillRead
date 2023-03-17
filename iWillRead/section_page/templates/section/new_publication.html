@@ -68,8 +68,10 @@
 			Create
 		</button>
 	</div>
+	{{ form.errors }}
 	<div class="form-tabs">
 		<div id="tab-content" class="tab-content">
+			{{ error }}
 			<div class="form-items-wrap">
 				<div id="form-item-name" class="form-item">
 					<div class="form-title">
@@ -121,15 +123,17 @@
 
 <script type="module">
 	import { resizeLeftContent } from '{% static "js/section/section.js" %}';
+	
 	resizeLeftContent('section-top', 'section-image', 'section-left-content');
-
 	window.onresize = function(){
 		resizeLeftContent('section-top', 'section-image', 'section-left-content');
 	}
 
 	import { contentOperations } from '{% static "js/section/section.js" %}';
 	window.addEventListener("load", () => {
-		contentOperations();
+		contentOperations(function(){
+			resizeLeftContent('section-top', 'section-image', 'section-left-content');
+		});
 	});
 
 	let form_category = document.getElementById('form-item-category'); 

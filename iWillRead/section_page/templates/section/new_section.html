@@ -17,14 +17,14 @@
 
 {%block left_container %}
 <div class="section-description-wrap">
-	<div class="section-top">
+	<div class="section-top" id="section-top">
 		<div id="section-path-name" class="section-path-name">
 		</div>
 		<div id="section-detail-wrap" class="section-detail-wrap">
 			<button class="section-detail-btn">
 				Detail
 			</button>
-			<div id="section-detail-menu" class="section-detail-menu section-menu-hidden">
+			<!-- <div id="section-detail-menu" class="section-detail-menu section-menu-hidden">
 				<a href="#" class="section-detail-menu-item">
 					Edit
 				</a>
@@ -37,10 +37,10 @@
 				<a href="#" class="section-detail-menu-item delete-secton-btn">
 					Delete
 				</a>
-			</div>
+			</div> -->
 		</div>
 	</div>
-	<div class="section-image">
+	<div class="section-image" id="section-image">
 		<div id="section-image-wrap" class="section-image-wrap">
 			{% if section.image.url %}
 				<img src="{{ section.image.url }}">
@@ -49,7 +49,7 @@
 			{% endif %}
 		</div>
 	</div>
-	<div class="section-left-content">
+	<div class="section-left-content" id="section-left-content">
 		<div id="section-text" class="section-text">
 		</div>
 		<form method="post" class="header-search subsections-search">
@@ -80,6 +80,7 @@
 			Create
 		</button>
 	</div>
+	{{form.errors}}
 	<div class="form-tabs">
 		<div id="tab-content" class="tab-content">
 			{{ form.media }}
@@ -116,13 +117,17 @@
 
 
 {% block script %}
-<script type="module" src="{% static 'js/section/section.js' %}"></script>
 
-<script>
-	import { contentOperations } from '{% static "js/section/section.js" %}';
+<script type="module">
+	import { contentOperations, resizeLeftContent } from '{% static "js/section/section.js" %}';
 	window.addEventListener("load", () => {
 		contentOperations();
 	});
+
+	resizeLeftContent('section-top', 'section-image', 'section-left-content');
+	window.onresize = function(){
+		resizeLeftContent('section-top', 'section-image', 'section-left-content');
+	}
 
 	document.getElementById('section-detail-wrap').onclick = function(){
     	document.getElementById('section-detail-menu').classList.toggle('section-menu-hidden');

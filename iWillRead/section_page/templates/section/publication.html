@@ -19,7 +19,7 @@
 <div class="section-description-wrap">
 	<div class="section-top" id="section-top">
 		<div class="section-path-name">
-			New publication
+			Publication "{{ publication.name }}"
 		</div>
 		<div id="section-detail-wrap" class="section-detail-wrap">
 			<button class="section-detail-btn">
@@ -32,7 +32,11 @@
 				<a href="{{ publication.get_edit_url }}?parentsection_id={{ parentsection_id }}" class="section-detail-menu-item">
 					Edit publication
 				</a>
-				<a href="#" class="section-detail-menu-item delete-secton-btn">
+				<form id="delete_publication_form" method="post">
+					{% csrf_token %}
+					<input type="hidden" id="delete_publication_id" name="delete_publication_id" value="{{ publication.id }}">
+				</form>
+				<a class="section-detail-menu-item delete-secton-btn" id="delete-section-btn">
 					Delete
 				</a>
 			</div>
@@ -76,5 +80,11 @@
 			});
 		}
     }
+
+	let delete_section_btn = document.getElementById('delete-section-btn');
+	delete_section_btn.onclick = function(){
+		document.getElementById('delete_publication_form').submit();
+	}
+
 </script>
 {% endblock script %}
